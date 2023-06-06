@@ -1,6 +1,7 @@
 # API-NBP - Smart App for Fetching Current Values of Currencies
 
-API-NBP is a web application that allows you to fetch the current values of currencies using the NBP API. This project is developed in PHP and utilizes a MySQL database for storing the fetched data.
+API-NBP is a web application that allows you to fetch the current values of currencies using the NBP API. This project is developed in PHP 
+(MVC architecture) and utilizes a MySQL database for storing the fetched data.
 
 ## Getting Started
 

@@ -9,7 +9,7 @@ use \App\Models\CurrencyModel;
  * Fetch Currency controller
  *
  */
-class FetchCurrency extends \Core\Controller
+class FetchCurrencyController extends \Core\Controller
 {
 
     /**
