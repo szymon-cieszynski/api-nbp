@@ -19,15 +19,7 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        // $conn = static::getDB();
-        // if ($conn->connect_error) {
-        //     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
-        // }
-
         View::renderTemplate('Home/index.html');
-   
-
-        
         
     }
 }
