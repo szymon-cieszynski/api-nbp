@@ -23,7 +23,7 @@
                         <select id="have" name="currency" class="form-control">
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
-                            <option value={{ value.mid }}> {{ value.currency }}</option>
+                            <option value={{ value.mid }}> {{ value.code }} | {{ value.currency }} </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -35,7 +35,7 @@
                         <select id="want" name="currency" class="form-control">
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
-                            <option value={{ value.mid }}> {{ value.currency }}</option>
+                            <option value={{ value.ask }}> {{ value.code }} | {{ value.currency }} </option>
                             {% endfor %}
                         </select>
                         <br>
@@ -65,7 +65,7 @@
     select.addEventListener('change', function handleChange(event) {
         if (event.target.value === "") {
             document.getElementById("hiddenDiv").hidden = true;
-            
+
         } else {
             document.getElementById("hiddenDiv").hidden = false;
 
@@ -76,12 +76,6 @@
             hiddenParagraph.hidden = false;
         }
     });
-
-    // select.addEventListener('change', function handleChange(event) {
-        
-
-
-    // });
 
 </script>
 {% endblock %}

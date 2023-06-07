@@ -11,12 +11,13 @@
 
             </header>
             <div class="row mb-5 mt-2">
-                <h2>Table A from {{ "now"|date("m/d/Y") }}</h2>
+                <h2>Table C from {{ "now"|date("m/d/Y") }}</h2>
                 <table>
                     <tr>
                         <th>Currency name</th>
                         <th>Code</th>
-                        <th>MID course</th>
+                        <th>Bid</th>
+                        <th>Ask</th>
                     </tr>
                     {% for row in data %}
                     <tr>
@@ -27,7 +28,10 @@
                             {{ row.code }}
                         </td>
                         <td>
-                            {{ row.mid }}
+                            {{ row.bid }}
+                        </td>
+                        <td>
+                            {{ row.ask }}
                         </td>
                     </tr>
                     {% endfor %}
