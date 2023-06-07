@@ -2,6 +2,30 @@
 
 {% block title %}Virtual Exchange Office{% endblock %}
 
+{% block footer %}
+<script>
+    $(document).ready(function () {
+        $('#formConversion').validate({
+            errorClass: 'error',
+            rules: {
+                amount: {
+                    required: true,
+                    max: 10000000,
+                    min: "0.01"
+                },
+                from_currency: 'required',
+                to_currency: 'required',
+            },
+            messages: {
+                amount: {
+                    max: 'Amount max. 10.000.000PLN',
+                    min: 'Amount min. 0.01PLN'
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% block body %}
 <section class="convert">
     <div class="container my-3">
@@ -10,20 +34,16 @@
         </header>
         <form action="/ConversionController/conversion" method="post" id="formConversion">
             <div class="row g-2">
-                <div class="col-sm-6 mb-4">
-                    <div class="form-group">
-                        <label>Amount: PLN</label>
-                        <input type="number" id="amount" name="amount" step="0.01" class="form-control">
-                    </div>
-                </div>
-
                 <div class="col-sm-12 mb-4">
                     <div class="form-group">
                         <label>I have:</label>
-                        <select id="have" name="currency" class="form-control">
+                        <select id="from_currency" name="from_currency" class="form-control">
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
-                            <option value={{ value.mid }}> {{ value.code }} | {{ value.currency }} </option>
+                            {% if value.ask is not empty %}
+                            <option value={{ value.code }}|{{ value.ask }}> {{ value.code }} | {{ value.currency }}
+                            </option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -32,10 +52,13 @@
                 <div class="col-sm-12 mb-4">
                     <div class="form-group">
                         <label>I want to get:</label>
-                        <select id="want" name="currency" class="form-control">
+                        <select id="to_currency" name="to_currency" class="form-control">
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
-                            <option value={{ value.ask }}> {{ value.code }} | {{ value.currency }} </option>
+                            {% if value.ask is not empty %}
+                            <option value={{ value.code }}|{{ value.ask }}> {{ value.code }} | {{ value.currency }}
+                            </option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                         <br>
@@ -45,21 +68,30 @@
                     </div>
                 </div>
 
+                <div class="col-sm-6 mb-4">
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        <input type="number" id="amount" name="amount" step="0.01" class="form-control">
+                    </div>
+                </div>
+
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Bang!">
-                    <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
+                    <input type="reset" class="button" onclick="window.location.replace('/')" value="Cancel">
                 </div>
+
+                {% if result is not empty %}
+                <h4><span style="color: green;">After exchange {{ amount }} {{ fromCurrency }} you will get {{ result
+                        }}
+                        {{ toCurrency }}</span></h4>
+                {% endif %}
             </div>
         </form>
     </div>
 </section>
 
-{% endblock %}
-
-{% block footer %}
-
 <script>
-    const select = document.getElementById('want');
+    const select = document.getElementById('to_currency');
     const hiddenParagraph = document.getElementById('hiddenPar');
 
     select.addEventListener('change', function handleChange(event) {
@@ -78,4 +110,6 @@
     });
 
 </script>
+
+
 {% endblock %}

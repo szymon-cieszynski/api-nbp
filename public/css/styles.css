@@ -10,6 +10,16 @@ body {
     color: red;
 }
 
+.button {
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+
 /* .alert {
     border: 1px solid #ccc;
     padding: 6px;

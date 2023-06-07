@@ -9,45 +9,18 @@ use \App\Auth;
 
 
 #[\AllowDynamicProperties]
-class CurrencyModel extends \Core\Model
+class ConversionModel extends \Core\Model
 {
 
-    public function fetchDataFromNBP()
+    public function convertCurrency($fromCurrency, $toCurrency, $amount)
     {
-        //$apiUrl = 'http://api.nbp.pl/api/exchangerates/tables/A/';
-        $apiUrl = 'https://api.nbp.pl/api/exchangerates/tables/c/';
-            
-        // Fetching data from API
-        $jsonResponse = file_get_contents($apiUrl);
-        //var_dump($jsonResponse);
-        $data = json_decode($jsonResponse, true);
+        $result = round($amount * ($fromCurrency / $toCurrency), 2);
 
-        $localCurrency = array(
-            'currency' => 'Polski złoty',
-            'code' => 'PLN',
-            'bid' => '1.00',
-            'ask' => '1.00'
-        );
+        //var_dump($result);die;
 
-        $foreignCurrencies = array_map(function($rate) {
-            return array(
-                'currency' => $rate['currency'],
-                'code' => $rate['code'],
-                'bid' => $rate['bid'],
-                'ask' => $rate['ask'],
-            );
-        }, $data[0]['rates']);
-    
-    
-        $combinedData = array(
-            'localCurrency' => $localCurrency,
-            'foreignCurrencies' => $foreignCurrencies
-            
-        );
-        
-       // var_dump($combinedData);
-        return $combinedData;
+        return $result;
     }
+
 
     public function saveDataToDatabase($data)
     {
@@ -79,7 +52,7 @@ class CurrencyModel extends \Core\Model
     
     }
 
-    public static function getDataFromDatabase()
+    public function getDataFromDatabase()
     {
         $sql = 'SELECT * FROM currency ORDER BY CASE WHEN code = "PLN" THEN 0 ELSE 1 END, code ASC';
         $db = static::getDB();

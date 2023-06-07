@@ -25,7 +25,7 @@ class FetchCurrencyController extends \Core\Controller
 
         $currencyModel->saveDataToDatabase($data);
 
-        $data = $currencyModel->getDataFromDatabase();
+        $data = CurrencyModel::getDataFromDatabase();
        // var_dump($data);
 
         View::renderTemplate('FetchCurrency/fetch.html', [
