@@ -40,14 +40,14 @@ class ConversionModel extends \Core\Model
     
     }
 
-    public static function getLastConvertionsFromDatabase()
+    public static function getLastConversionsFromDatabase()
     {
         $sql = 'SELECT * FROM conversion ORDER BY id DESC LIMIT 10';
         $db = static::getDB();
         $stmt = $db->query($sql);
         
-        $lastConvertions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $lastConversions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $lastConvertions;
+        return $lastConversions;
     }
 }

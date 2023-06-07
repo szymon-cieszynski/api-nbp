@@ -60,10 +60,10 @@ class ConversionController extends \Core\Controller
 
     public function show()
     {
-        $lastConvertions = ConversionModel::getLastConvertionsFromDatabase();
+        $lastConversions = ConversionModel::getLastConversionsFromDatabase();
 
         View::renderTemplate('Conversion/show.html', [
-            'last' => $lastConvertions,
+            'last' => $lastConversions,
         ]);    
         
     }

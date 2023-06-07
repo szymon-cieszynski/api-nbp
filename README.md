@@ -25,7 +25,19 @@ CREATE TABLE `currency` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `currency` VARCHAR(100) NOT NULL,
     `code` VARCHAR(10) NOT NULL,
-    `mid` DECIMAL(10, 4) NOT NULL
+    `bid` VARCHAR(100) NOT NULL,
+    `ask` VARCHAR(100) NOT NULL,
+) ENGINE=InnoDB;
+```
+
+```sql
+CREATE TABLE `conversions` (
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `from_currency	` VARCHAR(10) NOT NULL,
+    `to_currency	` VARCHAR(10) NOT NULL,
+    `result` VARCHAR(100) NOT NULL,
+    `amount` VARCHAR(100) NOT NULL,
+
 ) ENGINE=InnoDB;
 ```
 
