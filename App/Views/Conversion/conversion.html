@@ -1,21 +1,87 @@
 {% extends "base.html" %}
 
-{% block title %}Fetch Currencies{% endblock %}
+{% block title %}Virtual Exchange Office{% endblock %}
 
 {% block body %}
+<section class="convert">
+    <div class="container my-3">
+        <header>
+            <h2>Convert currencies</h2>
+        </header>
+        <form action="/ConversionController/conversion" method="post" id="formConversion">
+            <div class="row g-2">
+                <div class="col-sm-6 mb-4">
+                    <div class="form-group">
+                        <label>Amount: PLN</label>
+                        <input type="number" id="amount" name="amount" step="0.01" class="form-control">
+                    </div>
+                </div>
 
-<main>
-    <section class="mt-2">
-        <div class="container col-md-6">
-            <header>
-                <h1>Conversion</h1>
-            </header>
-            <div class="row mb-5 mt-2">
+                <div class="col-sm-12 mb-4">
+                    <div class="form-group">
+                        <label>I have:</label>
+                        <select id="have" name="currency" class="form-control">
+                            <option value="">--Please choose an option--</option>
+                            {% for value in data %}
+                            <option value={{ value.mid }}> {{ value.currency }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
+                <div class="col-sm-12 mb-4">
+                    <div class="form-group">
+                        <label>I want to get:</label>
+                        <select id="want" name="currency" class="form-control">
+                            <option value="">--Please choose an option--</option>
+                            {% for value in data %}
+                            <option value={{ value.mid }}> {{ value.currency }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <div id="hiddenDiv" hidden class="row">
+                            <p id="hiddenPar" style="font-weight: bold;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 my-1">
+                    <input type="submit" class="button" value="Bang!">
+                    <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
+                </div>
             </div>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 
-</main>
+{% endblock %}
 
+{% block footer %}
+
+<script>
+    const select = document.getElementById('want');
+    const hiddenParagraph = document.getElementById('hiddenPar');
+
+    select.addEventListener('change', function handleChange(event) {
+        if (event.target.value === "") {
+            document.getElementById("hiddenDiv").hidden = true;
+            
+        } else {
+            document.getElementById("hiddenDiv").hidden = false;
+
+            const selectedOption = event.target.options[event.target.selectedIndex];
+            const selectedCurrencyRate = selectedOption.value;
+
+            hiddenParagraph.textContent = 'Current rate: ' + selectedCurrencyRate;
+            hiddenParagraph.hidden = false;
+        }
+    });
+
+    // select.addEventListener('change', function handleChange(event) {
+        
+
+
+    // });
+
+</script>
 {% endblock %}

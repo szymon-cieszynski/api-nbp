@@ -3,7 +3,6 @@
 /**
  * Front controller
  *
- * PHP version 7.0
  */
 
 /**
@@ -20,7 +19,7 @@ set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
 /**
- * Sessions - start sesji lub kontynuacja rozpoćzetej..?
+ * Sessions
  */
 session_start();
 

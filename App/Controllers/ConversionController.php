@@ -19,8 +19,13 @@ class ConversionController extends \Core\Controller
      */
     public function conversion()
     {
+        $currencyModel = new CurrencyModel();
+        $data = $currencyModel->getDataFromDatabase();
 
-        View::renderTemplate('Conversion/conversion.html');    
+        View::renderTemplate('Conversion/conversion.html', [
+            'data' => $data,
+
+        ]);    
         
     }
 }
