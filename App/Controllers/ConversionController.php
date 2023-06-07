@@ -46,7 +46,7 @@ class ConversionController extends \Core\Controller
         $conversionModel = new ConversionModel();
 
         $result = $conversionModel->convertCurrency($fromCurrencyAsk, $toCurrencyAsk, $amount);
-        
+        ConversionModel::saveConversionToDatabase($fromCurrencyCode, $toCurrencyCode, $result);
 
         View::renderTemplate('Conversion/conversion.html', [
             'result' => $result,
@@ -54,7 +54,16 @@ class ConversionController extends \Core\Controller
             'amount' => $amount,
             'fromCurrency' => $fromCurrencyCode,
             'toCurrency' => $toCurrencyCode,
+        ]);    
+        
+    }
 
+    public function show()
+    {
+        $lastConvertions = ConversionModel::getLastConvertionsFromDatabase();
+        
+        View::renderTemplate('Conversion/show.html', [
+            'last' => $lastConvertions,
         ]);    
         
     }

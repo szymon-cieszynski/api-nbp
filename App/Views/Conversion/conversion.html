@@ -102,7 +102,7 @@
             document.getElementById("hiddenDiv").hidden = false;
 
             const selectedOption = event.target.options[event.target.selectedIndex];
-            const selectedCurrencyRate = selectedOption.value;
+            const selectedCurrencyRate = selectedOption.value.split('|')[1];
 
             hiddenParagraph.textContent = 'Current rate: ' + selectedCurrencyRate;
             hiddenParagraph.hidden = false;

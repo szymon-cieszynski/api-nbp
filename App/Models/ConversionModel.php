@@ -22,44 +22,31 @@ class ConversionModel extends \Core\Model
     }
 
 
-    public function saveDataToDatabase($data)
+    public static function saveConversionToDatabase($fromCurrencyCode, $toCurrencyCode, $result)
     {
 
-        $sql = 'INSERT INTO currency (currency, code, bid, ask)
-        VALUES (:currency, :code, :bid, :ask) ON DUPLICATE KEY UPDATE currency = :currency';
+        $sql = 'INSERT INTO conversion (from_currency, to_currency, result)
+        VALUES (:from_currency, :to_currency, :result)';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        if (isset($data['localCurrency']) && isset($data['localCurrency']['currency']) && isset($data['localCurrency']['code']) && isset($data['localCurrency']['bid']) && isset($data['localCurrency']['ask'])) {
-            $localCurrencyData = $data['localCurrency'];
-            $stmt->bindValue(':currency', $localCurrencyData['currency'], PDO::PARAM_STR);
-            $stmt->bindValue(':code', $localCurrencyData['code'], PDO::PARAM_STR);
-            $stmt->bindValue(':bid', $localCurrencyData['bid'], PDO::PARAM_STR);
-            $stmt->bindValue(':ask', $localCurrencyData['ask'], PDO::PARAM_STR);
-            $stmt->execute();
-        }
+        $stmt->bindValue(':from_currency', $fromCurrencyCode, PDO::PARAM_STR);
+        $stmt->bindValue(':to_currency', $toCurrencyCode, PDO::PARAM_STR);
+        $stmt->bindValue(':result', $result, PDO::PARAM_STR);
 
-        foreach ($data['foreignCurrencies'] as $currencyData) {
-            if (isset($currencyData['currency']) && isset($currencyData['code']) && isset($currencyData['bid']) && isset($currencyData['ask'])) {
-                $stmt->bindValue(':currency', $currencyData['currency'], PDO::PARAM_STR);
-                $stmt->bindValue(':code', $currencyData['code'], PDO::PARAM_STR);
-                $stmt->bindValue(':bid', $currencyData['bid'], PDO::PARAM_STR);
-                $stmt->bindValue(':ask', $currencyData['ask'], PDO::PARAM_STR);
-                $stmt->execute();
-            }
-        }
+        return $stmt->execute();        
     
     }
 
-    public function getDataFromDatabase()
+    public static function getLastConvertionsFromDatabase()
     {
-        $sql = 'SELECT * FROM currency ORDER BY CASE WHEN code = "PLN" THEN 0 ELSE 1 END, code ASC';
+        $sql = 'SELECT * FROM conversion ORDER BY id DESC LIMIT 10';
         $db = static::getDB();
         $stmt = $db->query($sql);
         
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $lastConvertions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $data;
+        return $lastConvertions;
     }
 }
