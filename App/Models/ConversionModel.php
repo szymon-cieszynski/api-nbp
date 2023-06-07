@@ -22,15 +22,16 @@ class ConversionModel extends \Core\Model
     }
 
 
-    public static function saveConversionToDatabase($fromCurrencyCode, $toCurrencyCode, $result)
+    public static function saveConversionToDatabase($amount, $fromCurrencyCode, $toCurrencyCode, $result)
     {
 
-        $sql = 'INSERT INTO conversion (from_currency, to_currency, result)
-        VALUES (:from_currency, :to_currency, :result)';
+        $sql = 'INSERT INTO conversion (amount, from_currency, to_currency, result)
+        VALUES (:amount, :from_currency, :to_currency, :result)';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
+        $stmt->bindValue(':amount', $amount, PDO::PARAM_STR);
         $stmt->bindValue(':from_currency', $fromCurrencyCode, PDO::PARAM_STR);
         $stmt->bindValue(':to_currency', $toCurrencyCode, PDO::PARAM_STR);
         $stmt->bindValue(':result', $result, PDO::PARAM_STR);

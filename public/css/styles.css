@@ -19,6 +19,10 @@ body {
     cursor: pointer;
 }
 
+.narrow-table {
+    max-width: 600px;
+    margin: 0 auto;
+}
 
 /* .alert {
     border: 1px solid #ccc;

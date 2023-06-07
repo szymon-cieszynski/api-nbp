@@ -32,6 +32,10 @@
         <header>
             <h2>Convert currencies</h2>
         </header>
+        {% if data|length == 0 %}
+        <h3>I can't find fresh data! First, retreive data from NBP API <a
+                href="/fetchcurrencycontroller/fetch">here.</a></h3>
+        {% else %}
         <form action="/ConversionController/conversion" method="post" id="formConversion">
             <div class="row g-2">
                 <div class="col-sm-12 mb-4">
@@ -81,12 +85,14 @@
                 </div>
 
                 {% if result is not empty %}
-                <h4><span style="color: green;">After exchange {{ amount }} {{ fromCurrency }} you will get {{ result
+                <h4><span style="color: green;">After exchange {{ amount|number_format(2, ',', '.') }} {{ fromCurrency
+                        }} you will get {{ result|number_format(2, ',', '.')
                         }}
                         {{ toCurrency }}</span></h4>
                 {% endif %}
             </div>
         </form>
+        {% endif %}
     </div>
 </section>
 
