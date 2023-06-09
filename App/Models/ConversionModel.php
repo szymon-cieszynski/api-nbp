@@ -31,13 +31,16 @@ class ConversionModel extends \Core\Model
 
         if(!$this->errors)
         {
-            $fromCurrencyAsk = askRateFromCurrency($this->fromCurrencyCode);
-            $toCurrencyAsk = askRateToCurrency($this->toCurrencyCode);
+            $fromCurrencyAsk = ConversionModel::askRateForCurrency($this->fromCurrencyCode)['ask'];
+            $toCurrencyAsk = ConversionModel::askRateForCurrency($this->toCurrencyCode)['ask'];
 
             $result = round($this->amount * ($fromCurrencyAsk / $toCurrencyAsk), 2);
             $this->saveConversionToDatabase($this->amount, $this->fromCurrencyCode, $this->toCurrencyCode, $result);
             
-            return $result;
+            return [
+                'result' => $result,
+                'toCurrencyAsk' => $toCurrencyAsk,
+            ];
 
         } else {
             return false;
@@ -45,25 +48,13 @@ class ConversionModel extends \Core\Model
         
     }
 
-    private static function askRateFromCurrency($fromCurrencyCode)
+    private static function askRateForCurrency($currencyCode)
     {
         $sql = 'SELECT ask FROM currency WHERE code = :code';
 
         $db = static::getDB();
-        $stmt = $db->query($sql);
-        $stmt->bindValue(':code', $fromCurrencyCode, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    private static function askRateToCurrency($toCurrencyCode)
-    {
-        $sql = 'SELECT ask FROM currency WHERE code = :code';
-
-        $db = static::getDB();
-        $stmt = $db->query($sql);
-        $stmt->bindValue(':code', $toCurrencyCode, PDO::PARAM_STR);
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':code', $currencyCode, PDO::PARAM_STR);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

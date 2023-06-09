@@ -39,7 +39,10 @@ class ConversionController extends \Core\Controller
         
         $conversionModel = new ConversionModel($amount, $fromCurrencyCode, $toCurrencyCode);
 
-        $result = $conversionModel->convertCurrency();
+        $conversionData = $conversionModel->convertCurrency();
+        $result = $conversionData['result'];
+        $toCurrencyAsk = $conversionData['toCurrencyAsk'];
+
         
         View::renderTemplate('Conversion/conversion.html', [
             'result' => $result,
@@ -48,6 +51,7 @@ class ConversionController extends \Core\Controller
             'fromCurrency' => $fromCurrencyCode,
             'toCurrency' => $toCurrencyCode,
             'errors' => $conversionModel->errors,
+            'rate' => $toCurrencyAsk
         ]);    
         
     }

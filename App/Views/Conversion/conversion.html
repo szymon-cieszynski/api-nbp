@@ -97,7 +97,7 @@
                 <h4><span style="color: green;">After exchange {{ amount|number_format(2, ',', '.') }} {{ fromCurrency
                         }} you will get {{ result|number_format(2, ',', '.')
                         }}
-                        {{ toCurrency }}</span></h4>
+                        {{ toCurrency }} (Current rate: {{ rate|number_format(2, ',', '.') }})</span></h4>
                 {% endif %}
             </div>
         </form>
