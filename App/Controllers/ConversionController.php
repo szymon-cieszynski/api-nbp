@@ -23,7 +23,6 @@ class ConversionController extends \Core\Controller
         $currencyModel = new CurrencyModel();
         $data = $currencyModel->getDataFromDatabase();
 
-
         View::renderTemplate('Conversion/conversion.html', [
             'data' => $data,
 
@@ -33,27 +32,22 @@ class ConversionController extends \Core\Controller
 
     public function conversion()
     {
-       $data = CurrencyModel::getDataFromDatabase();
+        $data = CurrencyModel::getDataFromDatabase();
+        $fromCurrencyCode = $_POST['from_currency'];
+        $toCurrencyCode = $_POST['to_currency'];
+        $amount = $_POST['amount'];
+        
+        $conversionModel = new ConversionModel($amount, $fromCurrencyCode, $toCurrencyCode);
 
-       $fromCurrencyData = explode('|', $_POST['from_currency']);
-       $fromCurrencyCode = $fromCurrencyData[0];
-       $fromCurrencyAsk = $fromCurrencyData[1];
-       $amount = $_POST['amount'];
-       $toCurrencyData = explode('|', $_POST['to_currency']);
-       $toCurrencyCode = $toCurrencyData[0];
-       $toCurrencyAsk = $toCurrencyData[1];
-
-        $conversionModel = new ConversionModel();
-
-        $result = $conversionModel->convertCurrency($fromCurrencyAsk, $toCurrencyAsk, $amount);
-        ConversionModel::saveConversionToDatabase($amount, $fromCurrencyCode, $toCurrencyCode, $result);
-
+        $result = $conversionModel->convertCurrency();
+        
         View::renderTemplate('Conversion/conversion.html', [
             'result' => $result,
             'data' => $data,
             'amount' => $amount,
             'fromCurrency' => $fromCurrencyCode,
             'toCurrency' => $toCurrencyCode,
+            'errors' => $conversionModel->errors,
         ]);    
         
     }

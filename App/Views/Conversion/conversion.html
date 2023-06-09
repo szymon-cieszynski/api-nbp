@@ -31,12 +31,20 @@
     <div class="container my-3">
         <header>
             <h2>Convert currencies</h2>
+            {% if errors is not empty %}
+            <p>Errors:</p>
+            <ul>
+                {% for error in errors %}
+                <li class="error">{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </header>
         {% if data|length == 0 %}
         <h3>I can't find fresh data! First, retreive data from NBP API <a
                 href="/fetchcurrencycontroller/fetch">here.</a></h3>
         {% else %}
-        <form action="/ConversionController/conversion" method="post" id="formConversion">
+        <form action="/ConversionController/conversion" method="post" id="formConversion" novalidate>
             <div class="row g-2">
                 <div class="col-sm-12 mb-4">
                     <div class="form-group">
@@ -45,7 +53,7 @@
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
                             {% if value.ask is not empty %}
-                            <option value={{ value.code }}|{{ value.ask }}> {{ value.code }} | {{ value.currency }}
+                            <option value={{ value.code }}> {{ value.code }} | {{ value.currency }}
                             </option>
                             {% endif %}
                             {% endfor %}
@@ -60,13 +68,14 @@
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
                             {% if value.ask is not empty %}
-                            <option value={{ value.code }}|{{ value.ask }}> {{ value.code }} | {{ value.currency }}
+                            <option value="{{ value.code }}" data-ask="{{ value.ask }}"> {{ value.code }} | {{
+                                value.currency }} | {{ value.ask }}
                             </option>
                             {% endif %}
                             {% endfor %}
                         </select>
                         <br>
-                        <div id="hiddenDiv" hidden class="row">
+                        <div id=" hiddenDiv" hidden class="row">
                             <p id="hiddenPar" style="font-weight: bold;"></p>
                         </div>
                     </div>
@@ -100,6 +109,7 @@
     const select = document.getElementById('to_currency');
     const hiddenParagraph = document.getElementById('hiddenPar');
 
+
     select.addEventListener('change', function handleChange(event) {
         if (event.target.value === "") {
             document.getElementById("hiddenDiv").hidden = true;
@@ -108,7 +118,7 @@
             document.getElementById("hiddenDiv").hidden = false;
 
             const selectedOption = event.target.options[event.target.selectedIndex];
-            const selectedCurrencyRate = selectedOption.value.split('|')[1];
+            const selectedCurrencyRate = selectedOption.getAttribute('data-ask');
 
             hiddenParagraph.textContent = 'Current rate: ' + selectedCurrencyRate;
             hiddenParagraph.hidden = false;
