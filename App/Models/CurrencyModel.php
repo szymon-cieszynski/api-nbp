@@ -14,12 +14,11 @@ class CurrencyModel extends \Core\Model
 
     public function fetchDataFromNBP()
     {
-        //$apiUrl = 'http://api.nbp.pl/api/exchangerates/tables/A/';
         $apiUrl = 'https://api.nbp.pl/api/exchangerates/tables/c/';
             
         // Fetching data from API
         $jsonResponse = file_get_contents($apiUrl);
-        //var_dump($jsonResponse);
+
         $data = json_decode($jsonResponse, true);
 
         $localCurrency = array(
@@ -45,17 +44,15 @@ class CurrencyModel extends \Core\Model
             
         );
         
-       // var_dump($combinedData);
         return $combinedData;
     }
 
     public function saveDataToDatabase($data)
     {
-
-        $sql = 'INSERT INTO currency (currency, code, bid, ask)
-        VALUES (:currency, :code, :bid, :ask) ON DUPLICATE KEY UPDATE currency = :currency';
+        $sql = 'INSERT INTO currency (currency, code, bid, ask) VALUES (:currency, :code, :bid, :ask)';
 
         $db = static::getDB();
+        $db->exec('TRUNCATE TABLE currency');
         $stmt = $db->prepare($sql);
 
         if (isset($data['localCurrency']) && isset($data['localCurrency']['currency']) && isset($data['localCurrency']['code']) && isset($data['localCurrency']['bid']) && isset($data['localCurrency']['ask'])) {

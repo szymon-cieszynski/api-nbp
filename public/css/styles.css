@@ -3,7 +3,7 @@ body {
 }
 
 body {
-    background-color: rgb(194, 178, 128);
+    background-color: rgb(154, 194, 150);
 }
 
 .error {
@@ -23,24 +23,3 @@ body {
     max-width: 600px;
     margin: 0 auto;
 }
-
-/* .alert {
-    border: 1px solid #ccc;
-    padding: 6px;
-}
-
-.alert-info {
-    background-color: #d9edf7;
-}
-
-.alert-success {
-    background-color: #dff0d8;
-}
-
-.alert-warning {
-    background-color: #fcf8e3;
-} */
-
-/* button {
-    border: 1px black;
-} */

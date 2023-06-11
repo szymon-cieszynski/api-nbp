@@ -20,12 +20,10 @@ class ConversionController extends \Core\Controller
      */
     public function indexConversion()
     {
-        $currencyModel = new CurrencyModel();
-        $data = $currencyModel->getDataFromDatabase();
+        $data = CurrencyModel::getDataFromDatabase();
 
         View::renderTemplate('Conversion/conversion.html', [
             'data' => $data,
-
         ]);    
         
     }

@@ -21,12 +21,10 @@ class FetchCurrencyController extends \Core\Controller
     {
         $currencyModel = new CurrencyModel();
         $data = $currencyModel->fetchDataFromNBP();
-        //var_dump($data);
 
         $currencyModel->saveDataToDatabase($data);
 
         $data = CurrencyModel::getDataFromDatabase();
-       // var_dump($data);
 
         View::renderTemplate('FetchCurrency/fetch.html', [
             'data' => $data

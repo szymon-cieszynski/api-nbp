@@ -68,16 +68,11 @@
                             <option value="">--Please choose an option--</option>
                             {% for value in data %}
                             {% if value.ask is not empty %}
-                            <option value="{{ value.code }}" data-ask="{{ value.ask }}"> {{ value.code }} | {{
-                                value.currency }} | {{ value.ask }}
-                            </option>
+                            <option value="{{ value.code }}"> {{ value.code }} | {{
+                                value.currency }} </option>
                             {% endif %}
                             {% endfor %}
                         </select>
-                        <br>
-                        <div id=" hiddenDiv" hidden class="row">
-                            <p id="hiddenPar" style="font-weight: bold;"></p>
-                        </div>
                     </div>
                 </div>
 
@@ -104,28 +99,5 @@
         {% endif %}
     </div>
 </section>
-
-<script>
-    const select = document.getElementById('to_currency');
-    const hiddenParagraph = document.getElementById('hiddenPar');
-
-
-    select.addEventListener('change', function handleChange(event) {
-        if (event.target.value === "") {
-            document.getElementById("hiddenDiv").hidden = true;
-
-        } else {
-            document.getElementById("hiddenDiv").hidden = false;
-
-            const selectedOption = event.target.options[event.target.selectedIndex];
-            const selectedCurrencyRate = selectedOption.getAttribute('data-ask');
-
-            hiddenParagraph.textContent = 'Current rate: ' + selectedCurrencyRate;
-            hiddenParagraph.hidden = false;
-        }
-    });
-
-</script>
-
 
 {% endblock %}

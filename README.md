@@ -26,7 +26,7 @@ CREATE TABLE `currency` (
     `currency` VARCHAR(100) NOT NULL,
     `code` VARCHAR(10) NOT NULL,
     `bid` VARCHAR(100) NOT NULL,
-    `ask` VARCHAR(100) NOT NULL,
+    `ask` VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB;
 ```
 
@@ -36,8 +36,7 @@ CREATE TABLE `conversions` (
     `from_currency	` VARCHAR(10) NOT NULL,
     `to_currency	` VARCHAR(10) NOT NULL,
     `result` VARCHAR(100) NOT NULL,
-    `amount` VARCHAR(100) NOT NULL,
-
+    `amount` VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB;
 ```
 
