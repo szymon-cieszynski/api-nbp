@@ -16,7 +16,9 @@ class ConversionModel extends \Core\Model
 
     /**
      * Class constructor
-     * @param array $data  Initial property values
+     * @param float $amount Initial value for the amount
+     * @param string $fromCurrencyCode  Initial value for the source currency code
+     * @param string $toCurrencyCode  Initial value for the target currency code
      */
     public function __construct($amount, $fromCurrencyCode, $toCurrencyCode) //during creating object, assign values from form
     {
@@ -43,7 +45,7 @@ class ConversionModel extends \Core\Model
             ];
 
         } else {
-            return false;
+            return [];
         }
         
     }

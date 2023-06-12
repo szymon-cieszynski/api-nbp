@@ -5,11 +5,11 @@ API-NBP is a web application that allows you to fetch the current values of curr
 
 ## Getting Started
 
-To get started with the project, follow the instructions below:
+Visit https://api-nbp-app.000webhostapp.com/ or to get started with the project locally, follow the instructions below:
 
 ### Prerequisites
 
-- PHP (version X or higher)
+- PHP (version 7 or higher)
 - MySQL database
 - Local web server (e.g., XAMPP, WAMP, or MAMP)
 

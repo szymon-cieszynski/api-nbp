@@ -42,7 +42,7 @@
         </header>
         {% if data|length == 0 %}
         <h3>I can't find fresh data! First, retreive data from NBP API <a
-                href="/fetchcurrencycontroller/fetch">here.</a></h3>
+                href="/FetchCurrencyController/fetch">here.</a></h3>
         {% else %}
         <form action="/ConversionController/conversion" method="post" id="formConversion" novalidate>
             <div class="row g-2">

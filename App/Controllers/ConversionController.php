@@ -28,6 +28,11 @@ class ConversionController extends \Core\Controller
         
     }
 
+    /**
+     * Conversion page with converted currencies
+     *
+     * @return void
+     */
     public function conversion()
     {
         $data = CurrencyModel::getDataFromDatabase();
@@ -38,22 +43,34 @@ class ConversionController extends \Core\Controller
         $conversionModel = new ConversionModel($amount, $fromCurrencyCode, $toCurrencyCode);
 
         $conversionData = $conversionModel->convertCurrency();
-        $result = $conversionData['result'];
-        $toCurrencyAsk = $conversionData['toCurrencyAsk'];
-
-        
-        View::renderTemplate('Conversion/conversion.html', [
-            'result' => $result,
-            'data' => $data,
-            'amount' => $amount,
-            'fromCurrency' => $fromCurrencyCode,
-            'toCurrency' => $toCurrencyCode,
-            'errors' => $conversionModel->errors,
-            'rate' => $toCurrencyAsk
-        ]);    
+        if (!empty($conversionData)){
+            
+            $result = $conversionData['result'];
+            $toCurrencyAsk = $conversionData['toCurrencyAsk'];
+           
+            View::renderTemplate('Conversion/conversion.html', [
+                'result' => $result,
+                'data' => $data,
+                'amount' => $amount,
+                'fromCurrency' => $fromCurrencyCode,
+                'toCurrency' => $toCurrencyCode,
+                'errors' => $conversionModel->errors,
+                'rate' => $toCurrencyAsk
+            ]);    
+        } else {
+            View::renderTemplate('Conversion/conversion.html', [
+                'data' => $data,
+                'errors' => $conversionModel->errors,
+            ]); 
+        }
         
     }
 
+    /**
+     * Show last conversion nad display in table
+     *
+     * @return void
+     */
     public function show()
     {
         $lastConversions = ConversionModel::getLastConversionsFromDatabase();
