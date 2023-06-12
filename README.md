@@ -61,9 +61,8 @@ define('DB_PASSWORD', 'your_password');
 
 ## Usage
 
-- On the homepage, you will see the fetched currency data displayed in a table.
-- The table includes columns for currency name, currency code, and mid-value (average exchange rate).
-- The table is automatically updated with the latest data fetched from the NBP API.
+- On the homepage, by clicking "Fetch current exchange rates" you will see currency data displayed in a table.
+- The table includes columns for currency name, currency code, bid-rate and ask-rate.
 - Use a form that will convert the provided amount from one currency to another, using data from the database.
 - Display a list of the latest conversion results, including information about the source currency, target currency, and converted amount.
 - You can customize the application further to suit your needs.
